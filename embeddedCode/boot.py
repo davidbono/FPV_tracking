@@ -19,7 +19,7 @@ def connect_wifi():
             print(".", end="")
             
     if wlan.isconnected():
-        print("\nConnecté !")
+        print("\nConnexion OK !")
         print("IP:", wlan.ifconfig()[0])
     else:
         print("\nÉchec de connexion.")
