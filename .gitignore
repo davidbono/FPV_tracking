@@ -1,0 +1,7 @@
+__pycache__/
+*.pyc
+.python-version
+.vscode/
+# Si vous utilisez Pymakr
+pymakr.conf
+secrets.py
