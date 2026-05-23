@@ -19,14 +19,19 @@ def send_to_splunk(data, sourcetype="_json"):
     
     headers = {
         "Authorization": f"Splunk {SPLUNK_TOKEN}",
-        "Content-Type": "application/json"
+        "Content-Type": "application/json; charset=utf-8", # On spécifie explicitement l'UTF-8
+        "Connection": "close" # Indique au serveur de fermer la connexion après la réponse pour économiser les ressources sur l'ESP32
+
     }
     
     response = None
     try:
+        # Encodage strict en chaînes de bytes UTF-8 pour éviter tout caractère parasite
+        json_bytes = json.dumps(payload).encode('utf-8')
+
         # Envoi de la requête POST sécurisée en convertissant le dictionnaire en chaîne JSON
         # Note : Le premier appel HTTPS peut prendre 1 à 2 secondes à cause du "handshake" SSL
-        response = urequests.post(url, data=json.dumps(payload), headers=headers)
+        response = urequests.post(url, data=json_bytes, headers=headers)
         
         if response.status_code == 200:
             print("[Splunk] Message envoyé avec succès en HTTPS !")
